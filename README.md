@@ -1,7 +1,7 @@
 brush-viewfinder
 ==================
 
-An example that establishes a two-way connection between [array-viewfinder](https://github.com/jimkang/array-viewfinder) and a [D3 brush control](https://github.com/mbostock/d3/wiki/SVG-Controls).
+An example that establishes two-way syncing between [array-viewfinder](https://github.com/jimkang/array-viewfinder) and a [D3 brush control](https://github.com/mbostock/d3/wiki/SVG-Controls).
 
 Installation
 ------------

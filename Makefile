@@ -9,10 +9,9 @@ D3SRC = node_modules/d3/src
 D3_LIBRARY_FILES = \
 	$(D3SRC)/start.js \
 	$(D3SRC)/compat/index.js \
-	$(D3SRC)/selection/selection.js \
-	$(D3SRC)/arrays/range.js \
-	$(D3SRC)/transition/index.js \
-	$(D3SRC)/event/mouse.js \
+	$(D3SRC)/svg/brush.js \
+	$(D3SRC)/svg/arc.js \
+	$(D3SRC)/svg/axis.js \
 	$(D3SRC)/end.js
 
 smash: $(D3_LIBRARY_FILES)
@@ -28,7 +27,7 @@ run:
 		-x idmaker \
 		-x lodash
 
-pch: smash # smash-debug
+pch: smash-debug # smash
 	node_modules/.bin/browserify \
 		lib/d3-small.js \
 		-r idmaker \
@@ -37,13 +36,3 @@ pch: smash # smash-debug
 
 pushall:
 	git push origin master && git push origin gh-pages
-
-ifndef PROJECTNAME
-init-project:
-	$(error PROJECTNAME is not set. Usage: make init-project PROJECTNAME=your-name)
-else
-init-project:
-	rm -rf .git
-	find . -type f -print0 | xargs -0 sed -i '' 's/brush-viewfinder/$(PROJECTNAME)/g'
-	git init
-endif

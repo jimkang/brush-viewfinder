@@ -1,2 +1,4 @@
 .DS_Store
 node_modules
+lib/d3-small.js
+pch.js
