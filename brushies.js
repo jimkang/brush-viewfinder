@@ -3,15 +3,16 @@ var d3Scale = require('d3-scale');
 var d3Random = require('d3-random')
 var d3Svg = require('./lib/d3-small').svg;
 
-function renderBrushies() {
-  var data = d3Arrays.range(800).map(Math.random);
+function renderBrushies(data, wholeArraySize) {
+  // var data = d3Arrays.range(800).map(Math.random);
 
   var margin = {top: 194, right: 50, bottom: 214, left: 50},
       width = 960 - margin.left - margin.right,
       height = 500 - margin.top - margin.bottom;
 
   var x = d3Scale.linear()
-      .range([0, width]);
+    .domain([0, wholeArraySize])
+    .range([0, width]);
 
   var y = d3Random.normal(height / 2, height / 8);
 

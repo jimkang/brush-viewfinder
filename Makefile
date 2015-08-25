@@ -21,12 +21,6 @@ smash: $(D3_LIBRARY_FILES)
 smash-debug: $(D3_LIBRARY_FILES)
 	node_modules/.bin/smash $(D3_LIBRARY_FILES) > lib/d3-small.js
 
-run:
-	wzrd index.js -- \
-		-d \
-		-x idmaker \
-		-x lodash
-
 pch: smash-debug # smash
 	node_modules/.bin/browserify \
 		lib/d3-small.js \
