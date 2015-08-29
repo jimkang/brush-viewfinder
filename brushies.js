@@ -14,7 +14,7 @@ function renderBrushies(data, wholeArraySize) {
     .domain([0, wholeArraySize])
     .range([0, width]);
 
-  var y = d3Random.normal(height / 2, height / 8);
+  // var y = d3Random.normal(height / 2, height / 8);
 
   var brush = d3Svg.brush()
       .x(x)
@@ -39,20 +39,24 @@ function renderBrushies(data, wholeArraySize) {
       .attr("transform", "translate(0," + height + ")")
       .call(d3Svg.axis().scale(x).orient("bottom"));
 
-  var circle = svg.append("g").selectAll("circle")
-      .data(data)
-    .enter().append("circle")
-      .attr("transform", function(d) { return "translate(" + x(d) + "," + y() + ")"; })
-      .attr("r", 3.5);
+  // var circle = svg.append("g").selectAll("circle")
+  //     .data(data)
+  //   .enter().append("circle")
+  //     .attr("transform", function(d) { return "translate(" + x(d) + "," + y() + ")"; })
+  //     .attr("r", 3.5);
 
   var brushg = svg.append("g")
       .attr("class", "brush")
       .call(brush);
 
-  brushg.selectAll(".resize").append("path")
-      .attr("transform", "translate(0," +  height / 2 + ")")
+  var resizers = brushg.selectAll(".resize").append('g')
+      .attr("transform", "translate(0," +  height / 2 + ")");
+
+  resizers.append("path")
       .attr("d", arc);
 
+  resizers.append('text').text('label');
+  
   brushg.selectAll("rect")
       .attr("height", height);
 
@@ -65,7 +69,7 @@ function renderBrushies(data, wholeArraySize) {
 
   function brushmove() {
     var s = brush.extent();
-    circle.classed("selected", function(d) { return s[0] <= d && d <= s[1]; });
+    // circle.classed("selected", function(d) { return s[0] <= d && d <= s[1]; });
   }
 
   function brushend() {
