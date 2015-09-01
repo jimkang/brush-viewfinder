@@ -70,7 +70,10 @@ function renderBrushies(viewfinder) {
   }
 
   function brushmove() {
-    var s = brush.extent();
+    var extent = brush.extent();    
+    viewfinder.shift(extent[0] - viewfinder.getIndex());
+    viewfinder.resizeView(extent[1] - extent[0]);
+
     updateBrushLabels();
     // circle.classed("selected", function(d) { return s[0] <= d && d <= s[1]; });
   }
