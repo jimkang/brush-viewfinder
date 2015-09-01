@@ -3,7 +3,7 @@ var d3Scale = require('d3-scale');
 var d3Random = require('d3-random')
 var d3Svg = require('./lib/d3-small').svg;
 
-function renderBrushies(viewfinder) {
+function renderBrushies(viewfinder, syncElementsToView) {
   // var data = d3Arrays.range(800).map(Math.random);
 
   var margin = {top: 194, right: 50, bottom: 214, left: 50},
@@ -75,6 +75,7 @@ function renderBrushies(viewfinder) {
     viewfinder.resizeView(extent[1] - extent[0]);
 
     updateBrushLabels();
+    syncElementsToView();
     // circle.classed("selected", function(d) { return s[0] <= d && d <= s[1]; });
   }
 

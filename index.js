@@ -10,11 +10,10 @@ var viewfinder = createArrayViewFinder({
 });
 
 var root = d3.select('#array-element-root');
-var update = root.selectAll('.array-element').data(viewfinder.view());
-update.enter().append('div').class('array-element', true).text(passThrough);
-update.exit().remove();
 
-renderBrushies(viewfinder);
+renderBrushies(viewfinder, syncElementsToView);
+
+syncElementsToView();
 
 function simpleEq(a, b) {
   return a === b;
@@ -22,4 +21,11 @@ function simpleEq(a, b) {
 
 function passThrough(d) {
   return d;
+}
+
+function syncElementsToView() {
+  var update = root.selectAll('.array-element').data(viewfinder.view());
+  update.enter().append('div').class('array-element', true)
+  update.text(passThrough);
+  update.exit().remove();  
 }
