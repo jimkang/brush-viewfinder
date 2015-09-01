@@ -3,7 +3,7 @@ var d3Scale = require('d3-scale');
 var d3Random = require('d3-random')
 var d3Svg = require('./lib/d3-small').svg;
 
-function renderBrushies(data, wholeArraySize) {
+function renderBrushies(viewfinder) {
   // var data = d3Arrays.range(800).map(Math.random);
 
   var margin = {top: 194, right: 50, bottom: 214, left: 50},
@@ -11,7 +11,7 @@ function renderBrushies(data, wholeArraySize) {
       height = 500 - margin.top - margin.bottom;
 
   var x = d3Scale.linear()
-    .domain([0, wholeArraySize])
+    .domain([0, viewfinder.getWholeArray().length])
     .range([0, width]);
 
   // var y = d3Random.normal(height / 2, height / 8);
@@ -55,7 +55,8 @@ function renderBrushies(data, wholeArraySize) {
   resizers.append("path")
       .attr("d", arc);
 
-  resizers.append('text').text('label');
+  var resizerLabels = resizers.append('text');
+  // .text('label');
   
   brushg.selectAll("rect")
       .attr("height", height);
@@ -65,15 +66,37 @@ function renderBrushies(data, wholeArraySize) {
 
   function brushstart() {
     svg.classed("selecting", true);
+    updateBrushLabels();
   }
 
   function brushmove() {
     var s = brush.extent();
+    updateBrushLabels();
     // circle.classed("selected", function(d) { return s[0] <= d && d <= s[1]; });
   }
 
   function brushend() {
     svg.classed("selecting", !d3.event.target.empty());
+  }
+
+  function updateBrushLabels() {
+    resizerLabels.text(getLabelTextForBrushData);
+  }
+
+  function getLabelTextForBrushData(d) {
+    var text = '';
+
+    if (viewfinder.getViewSize() > 0) {
+      var view = viewfinder.view();
+
+      if (d === 'w') {
+        text = view[0];
+      }
+      else if (d === 'e') {
+        text = view[view.length - 1];
+      }
+    }
+    return text;
   }
 }
 

@@ -14,7 +14,7 @@ var update = root.selectAll('.array-element').data(viewfinder.view());
 update.enter().append('div').class('array-element', true).text(passThrough);
 update.exit().remove();
 
-renderBrushies(viewfinder.view(), viewfinder.getWholeArray().length);
+renderBrushies(viewfinder);
 
 function simpleEq(a, b) {
   return a === b;
