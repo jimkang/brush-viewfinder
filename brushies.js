@@ -28,7 +28,7 @@ function renderBrushies(viewfinder, syncElementsToView) {
       .startAngle(0)
       .endAngle(function(d, i) { return i ? -Math.PI : Math.PI; });
 
-  var svg = d3.select("body").append("svg")
+  var svg = d3.select("#brush-root").append("svg")
       .attr("width", width + margin.left + margin.right)
       .attr("height", height + margin.top + margin.bottom)
     .append("g")
