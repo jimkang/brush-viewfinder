@@ -19,53 +19,53 @@ function renderBrushies(viewfinder, syncElementsToView) {
   var brush = d3Svg.brush()
       .x(x)
       .extent([.3, .5])
-      .on("brushstart", brushstart)
-      .on("brush", brushmove)
-      .on("brushend", brushend);
+      .on('brushstart', brushstart)
+      .on('brush', brushmove)
+      .on('brushend', brushend);
 
   var arc = d3Svg.arc()
       .outerRadius(height / 2)
       .startAngle(0)
       .endAngle(function(d, i) { return i ? -Math.PI : Math.PI; });
 
-  var svg = d3.select("#brush-root").append("svg")
-      .attr("width", width + margin.left + margin.right)
-      .attr("height", height + margin.top + margin.bottom)
-    .append("g")
-      .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+  var svg = d3.select('#brush-root').append('svg')
+      .attr('width', width + margin.left + margin.right)
+      .attr('height', height + margin.top + margin.bottom)
+    .append('g')
+      .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
 
-  svg.append("g")
-      .attr("class", "x axis")
-      .attr("transform", "translate(0," + height + ")")
-      .call(d3Svg.axis().scale(x).orient("bottom"));
+  svg.append('g')
+      .attr('class', 'x axis')
+      .attr('transform', 'translate(0,' + height + ')')
+      .call(d3Svg.axis().scale(x).orient('bottom'));
 
-  // var circle = svg.append("g").selectAll("circle")
+  // var circle = svg.append('g').selectAll('circle')
   //     .data(data)
-  //   .enter().append("circle")
-  //     .attr("transform", function(d) { return "translate(" + x(d) + "," + y() + ")"; })
-  //     .attr("r", 3.5);
+  //   .enter().append('circle')
+  //     .attr('transform', function(d) { return 'translate(' + x(d) + ',' + y() + ')'; })
+  //     .attr('r', 3.5);
 
-  var brushg = svg.append("g")
-      .attr("class", "brush")
+  var brushg = svg.append('g')
+      .attr('class', 'brush')
       .call(brush);
 
-  var resizers = brushg.selectAll(".resize").append('g')
-      .attr("transform", "translate(0," +  height / 2 + ")");
+  var resizers = brushg.selectAll('.resize').append('g')
+      .attr('transform', 'translate(0,' +  height / 2 + ')');
 
-  resizers.append("path")
-      .attr("d", arc);
+  resizers.append('path')
+      .attr('d', arc);
 
   var resizerLabels = resizers.append('text');
   // .text('label');
   
-  brushg.selectAll("rect")
-      .attr("height", height);
+  brushg.selectAll('rect')
+      .attr('height', height);
 
   brushstart();
   brushmove();
 
   function brushstart() {
-    svg.classed("selecting", true);
+    svg.classed('selecting', true);
     updateBrushLabels();
   }
 
@@ -76,11 +76,11 @@ function renderBrushies(viewfinder, syncElementsToView) {
 
     updateBrushLabels();
     syncElementsToView();
-    // circle.classed("selected", function(d) { return s[0] <= d && d <= s[1]; });
+    // circle.classed('selected', function(d) { return s[0] <= d && d <= s[1]; });
   }
 
   function brushend() {
-    svg.classed("selecting", !d3.event.target.empty());
+    svg.classed('selecting', !d3.event.target.empty());
   }
 
   function updateBrushLabels() {
