@@ -59,7 +59,6 @@ function renderBrushies(viewfinder, syncElementsToView) {
     
     brushg.selectAll('rect')
         .attr('height', height);
-
   }
   else {
     brushg.call(brush);
@@ -81,6 +80,7 @@ function renderBrushies(viewfinder, syncElementsToView) {
 
   function brushmove() {
     updateBrush();
+    updateViewfinder();
     syncElementsToView();
     // circle.classed('selected', function(d) { return s[0] <= d && d <= s[1]; });
   }
@@ -90,10 +90,13 @@ function renderBrushies(viewfinder, syncElementsToView) {
   }
 
   function updateBrush() {
+    resizerLabels.text(getLabelTextForBrushData);
+  }
+
+  function updateViewfinder() {
     var extent = brush.extent();    
     viewfinder.shift(extent[0] - viewfinder.getIndex());
-    viewfinder.resizeView(extent[1] - extent[0]);
-    resizerLabels.text(getLabelTextForBrushData);
+    viewfinder.resizeView(extent[1] - extent[0]);    
   }
 
   function getLabelTextForBrushData(d) {
