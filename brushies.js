@@ -27,7 +27,7 @@ function renderBrushies(viewfinder, syncElementsToView) {
   var array = viewfinder.getWholeArray();
 
   var x = d3Scale.linear()
-    .domain([0, array.length])
+    .domain([array[0], array[array.length - 1]])
     .range([0, width]);
 
   if (!brush) {
