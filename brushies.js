@@ -93,7 +93,7 @@ function renderBrushies(viewfinder, syncElementsToView) {
   }
 
   function updateViewfinder() {
-    var extent = brush.extent();    
+    var extent = brush.extent();
     viewfinder.shift(extent[0] - viewfinder.getIndex());
     viewfinder.resizeView(extent[1] - extent[0]);    
   }
