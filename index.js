@@ -1,5 +1,4 @@
 var createArrayViewFinder = require('array-viewfinder');
-var range = require('d3-arrays').range;
 var d3 = require('d3-selection');
 var renderBrushies = require('./brushies');
 var probable = require('probable');
@@ -49,6 +48,8 @@ function addToViewfinder() {
     array = array.concat(newElements);
   }
   viewfinder.update(array);
+  console.log('New array:', viewfinder.getWholeArray());
+  console.log('New view:', viewfinder.view());
 
   renderBrushies(viewfinder, syncElementsToView);
 }
