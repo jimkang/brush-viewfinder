@@ -1,4 +1,3 @@
-var d3Arrays = require('d3-arrays');
 var d3Scale = require('d3-scale');
 var d3Random = require('d3-random')
 var d3Svg = require('./lib/d3-small').svg;
