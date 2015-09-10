@@ -25,9 +25,7 @@ var arc = d3Svg.arc()
 function renderBrushies(viewfinder, syncElementsToView) {
   var array = viewfinder.getWholeArray();
 
-  var x = d3Scale.linear()
-    .domain([array[0], array[array.length - 1]])
-    .range([0, width]);
+  var x = getXScale(array);
 
   if (!brush) {
     brush = d3Svg.brush()
@@ -113,6 +111,12 @@ function renderBrushies(viewfinder, syncElementsToView) {
     }
     return text;
   }
+}
+
+function getXScale(array) {
+  return d3Scale.linear()
+    .domain([array[0], array[array.length - 1]])
+    .range([0, width]);
 }
 
 module.exports = renderBrushies;
