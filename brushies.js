@@ -56,10 +56,7 @@ function renderBrushies(viewfinder, syncElementsToView) {
     brushg.selectAll('rect')
         .attr('height', height);
   }
-  else {
-    brushg.call(brush);
-  }
-
+  
   updateBrush();
 
   if (!axisGroup) {
@@ -91,6 +88,7 @@ function renderBrushies(viewfinder, syncElementsToView) {
       viewfinder.getIndex() + viewfinder.getViewSize()
     ]);
     resizerLabels.text(getLabelTextForBrushData);
+    brushg.call(brush);
   }
 
   function updateViewfinder() {

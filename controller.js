@@ -16,8 +16,6 @@ function startLoop() {
   root = d3.select('#array-element-root');
 
   renderBrushies(viewfinder, syncElementsToView);
-  syncElementsToView();
-  addToViewfinder();
   setInterval(addToViewfinder, 2000);
 }
 
@@ -56,9 +54,6 @@ function addToViewfinder() {
   viewfinder.update(array);
   console.log('New array:', viewfinder.getWholeArray());
   console.log('New view:', viewfinder.view());
-  if (viewfinder.view()[0] < 0) {
-    debugger;
-  }
 
   renderBrushies(viewfinder, syncElementsToView);
 }
