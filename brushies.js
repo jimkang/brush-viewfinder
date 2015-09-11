@@ -25,11 +25,10 @@ var arc = d3Svg.arc()
 function renderBrushies(viewfinder, syncElementsToView) {
   var array = viewfinder.getWholeArray();
 
-  var x = getXScale(array);
+  var axisX = getAxisXScale(array);
 
   if (!brush) {
     brush = d3Svg.brush()
-      .x(x)
       .on('brushstart', brushstart)
       .on('brush', brushmove)
       .on('brushend', brushend);
@@ -56,15 +55,15 @@ function renderBrushies(viewfinder, syncElementsToView) {
     brushg.selectAll('rect')
         .attr('height', height);
   }
-  
-  updateBrush();
 
   if (!axisGroup) {
     axisGroup = svg.append('g')
       .attr('class', 'x axis')
       .attr('transform', 'translate(0,' + height + ')');
   }
-  axisGroup.call(d3Svg.axis().scale(x).orient('bottom'));
+  axisGroup.call(d3Svg.axis().scale(axisX).orient('bottom'));
+
+  updateBrush();
 
   function brushstart() {
     svg.classed('selecting', true);
@@ -75,7 +74,6 @@ function renderBrushies(viewfinder, syncElementsToView) {
     updateBrush();
     updateViewfinder();
     syncElementsToView();
-    // circle.classed('selected', function(d) { return s[0] <= d && d <= s[1]; });
   }
 
   function brushend() {
@@ -83,18 +81,19 @@ function renderBrushies(viewfinder, syncElementsToView) {
   }
 
   function updateBrush() {
+    brush.x(getBrushXScale(array));
     brush.extent([
       viewfinder.getIndex(),
       viewfinder.getIndex() + viewfinder.getViewSize()
     ]);
-    resizerLabels.text(getLabelTextForBrushData);
     brushg.call(brush);
+    resizerLabels.text(getLabelTextForBrushData);
   }
 
   function updateViewfinder() {
     var extent = brush.extent();
     viewfinder.shift(extent[0] - viewfinder.getIndex());
-    viewfinder.resizeView(extent[1] - extent[0]);    
+    viewfinder.resizeView(extent[1] - extent[0]);
   }
 
   function getLabelTextForBrushData(d) {
@@ -114,10 +113,17 @@ function renderBrushies(viewfinder, syncElementsToView) {
   }
 }
 
-function getXScale(array) {
+function getAxisXScale(array) {
   return d3Scale.linear()
     .domain([array[0], array[array.length - 1]])
     .range([0, width]);
 }
 
+// The brush scale uses indexes in the array as its base units, rather than 
+// the values at those indexes.
+function getBrushXScale(array) {
+  return d3Scale.linear()
+    .domain([0, array.length])
+    .range([0, width]);
+}
 module.exports = renderBrushies;
