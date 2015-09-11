@@ -30,7 +30,6 @@ function renderBrushies(viewfinder, syncElementsToView) {
   if (!brush) {
     brush = d3Svg.brush()
       .x(x)
-      .extent([.3, .5])
       .on('brushstart', brushstart)
       .on('brush', brushmove)
       .on('brushend', brushend);
@@ -87,6 +86,10 @@ function renderBrushies(viewfinder, syncElementsToView) {
   }
 
   function updateBrush() {
+    brush.extent([
+      viewfinder.getIndex(),
+      viewfinder.getIndex() + viewfinder.getViewSize()
+    ]);
     resizerLabels.text(getLabelTextForBrushData);
   }
 
