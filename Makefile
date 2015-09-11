@@ -1,5 +1,5 @@
 run:
-	wzrd index.js
+	wzrd index.js -- -d
 
 test:
 	node tests/basictests.js
