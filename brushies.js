@@ -25,7 +25,7 @@ var arc = d3Svg.arc()
 function renderBrushies(viewfinder, syncElementsToView) {
   var array = viewfinder.getWholeArray();
 
-  var axisX = getAxisXScale(array);
+  var x = getXScale(array);
 
   if (!brush) {
     brush = d3Svg.brush()
@@ -61,7 +61,7 @@ function renderBrushies(viewfinder, syncElementsToView) {
       .attr('class', 'x axis')
       .attr('transform', 'translate(0,' + height + ')');
   }
-  axisGroup.call(d3Svg.axis().scale(axisX).orient('bottom'));
+  axisGroup.call(d3Svg.axis().scale(x).orient('bottom'));
 
   updateBrush();
 
@@ -81,11 +81,9 @@ function renderBrushies(viewfinder, syncElementsToView) {
   }
 
   function updateBrush() {
-    brush.x(getBrushXScale(array));
-    brush.extent([
-      viewfinder.getIndex(),
-      viewfinder.getIndex() + viewfinder.getViewSize()
-    ]);
+    var view = viewfinder.view();
+    brush.x(x);
+    brush.extent([view[0], view[view.length - 1]]);
     brushg.call(brush);
     resizerLabels.text(getLabelTextForBrushData);
   }
@@ -113,17 +111,12 @@ function renderBrushies(viewfinder, syncElementsToView) {
   }
 }
 
-function getAxisXScale(array) {
+// Assumption: Array elements are in order.
+// The scale's domain is all of the possible values in the array.
+function getXScale(array) {
   return d3Scale.linear()
     .domain([array[0], array[array.length - 1]])
     .range([0, width]);
 }
 
-// The brush scale uses indexes in the array as its base units, rather than 
-// the values at those indexes.
-function getBrushXScale(array) {
-  return d3Scale.linear()
-    .domain([0, array.length])
-    .range([0, width]);
-}
 module.exports = renderBrushies;
