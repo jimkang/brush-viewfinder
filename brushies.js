@@ -16,6 +16,8 @@ var svg;
 var axisGroup;
 var brushg;
 var resizerLabels;
+var brushIsMoving = false;
+var queuedUpdate;
 
 var arc = d3Svg.arc()
     .outerRadius(height / 2)
@@ -23,6 +25,14 @@ var arc = d3Svg.arc()
     .endAngle(function(d, i) { return i ? -Math.PI : Math.PI; });
 
 function renderBrushies(viewfinder, syncElementsToView) {
+  if (brushIsMoving) {
+    queuedUpdate = {
+      viewfinder: viewfinder,
+      syncElementsToView: syncElementsToView
+    };
+    return;
+  }
+
   var array = viewfinder.getWholeArray();
 
   var x = getXScale(array);
@@ -63,24 +73,28 @@ function renderBrushies(viewfinder, syncElementsToView) {
   }
   axisGroup.call(d3Svg.axis().scale(x).orient('bottom'));
 
-  updateBrush();
+  redrawBrush();
 
   function brushstart() {
+    brushIsMoving = true;
     svg.classed('selecting', true);
-    updateBrush();
+    // redrawBrush();
   }
 
   function brushmove() {
-    updateBrush();
+    // redrawBrush();
     updateViewfinder();
-    syncElementsToView();
+    // syncElementsToView();
+    resizerLabels.text(getLabelTextForBrushData);
   }
 
   function brushend() {
+    brushIsMoving = false;
     svg.classed('selecting', !d3.event.target.empty());
+    runQueuedUpdate();
   }
 
-  function updateBrush() {
+  function redrawBrush() {
     var view = viewfinder.view();
     brush.x(x);
     brush.extent([view[0], view[view.length - 1]]);
@@ -109,7 +123,15 @@ function renderBrushies(viewfinder, syncElementsToView) {
     }
     return text;
   }
+
+  function runQueuedUpdate() {
+    if (queuedUpdate) {
+      renderBrushies(queuedUpdate.viewfinder, syncElementsToView);
+      queuedUpdate = null;
+    }
+  }
 }
+
 
 // Assumption: Array elements are in order.
 // The scale's domain is all of the possible values in the array.
