@@ -2,7 +2,7 @@ run:
 	wzrd index.js -- -d
 
 test:
-	node tests/basictests.js
+	node tests/time-release-element-group-stream-tests.js
 
 D3SRC = node_modules/d3/src
 

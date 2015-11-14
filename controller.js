@@ -55,20 +55,7 @@ function addToViewfinder() {
   console.log('New array:', viewfinder.getWholeArray());
   console.log('New view:', viewfinder.view());
 
-  renderBrushies(viewfinder, syncElementsToView);
-}
-
-function generateNewElements(howMany, startingValue) {
-  var newElements = [];
-  for (var i = 0; i < howMany; ++i) {
-    newElements.push(newElementForBase(startingValue + i));
-  }
-  return newElements;
-}
-
-function newElementForBase(baseValue) {
-  // For now.
-  return baseValue;
+  // renderBrushies(viewfinder, syncElementsToView);
 }
 
 module.exports = {
