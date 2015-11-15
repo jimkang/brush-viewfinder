@@ -3,6 +3,7 @@ run:
 
 test:
 	node tests/time-release-element-group-stream-tests.js
+	node tests/update-coordinator-tests.js
 
 D3SRC = node_modules/d3/src
 
